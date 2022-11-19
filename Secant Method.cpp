@@ -1,43 +1,42 @@
 #include<stdio.h>
 #include<conio.h>
-#define MAXN 100
-#define ORDER 4
+#include<math.h>
+float f(float a);
 int main()
 {
-    float ax[MAXN+1],ay[MAXN+1],diff[MAXN+1][ORDER+1],nr=1.0,dr=1.0,x,p,h,yp;
-    int n,i,j,k;
-    printf("\nEnter the value of n:\n");
-    scanf("%d",&n);
-    printf("\nEnter the values in form x,y:\n");
-    for (i=0;i<n;i++)
-    {
-    	 scanf("%f %f",&ax[i],&ay[i]);
-	}
-    printf("\nEnter the value of x for which the value of y is wanted: \n");
-    scanf("%f",&x);
-    h=ax[1]-ax[0];
-    for (i=0;i<=n-1;i++)
-    {
-    	diff[i][1] = ay[i+1]-ay[i];
-	}
-    for (j=2;j<=ORDER;j++)
-    {
-    	for(i=0;i<=n-j;i++)
-    	{
-    		diff[i][j] = diff[i+1][j-1]-diff[i][j-1];
-		}
-	}
-    i=0;
-    while (!(ax[i]>x))
-    i++;
-    i--;
-    p = (x-ax[i])/h;
-    yp = ay[i];
-    for (k=1;k<=ORDER;k++)
-    {
-        nr *=p-k+1;
-        dr *=k;
-        yp +=(nr/dr)*diff[i][k];
-    }
-    printf("\nWhen x = %6.1f, corresponding y = %6.2f\n",x,yp);
+	 float x0,x1,x,error;
+	 int itr,num=1;
+	 printf("\nEnter numbers:\n");
+	 printf("A:");
+	 scanf("%f",&x0);
+	 printf("\nB:");
+	 scanf("%f",&x1);
+	 printf("Enter Iteration:");
+	 scanf("%d",&itr);
+	 printf("Enter Error:");
+	 scanf("%f",&error);
+	 printf("\nIteration\t\tx");
+	 do
+	 {
+		  if(f(x0)==f(x1))
+		  {
+			   printf("soln cannot be found!!!");
+		  }
+		  x=(x0*f(x1)-x1*f(x0))/(f(x1)-f(x0));
+		  printf("\n%d\t\t\t%f",num,x);
+		  x0=x1;
+		  x1=x;
+		  num++;
+		  if(num==itr)
+		  {
+		  	break;
+		  }
+	 }while(fabs(f(x))>error); 
+	 return 0;
+}
+float f(float a)
+{
+	float ans1;
+	ans1=pow(a,3)-2*a-5;
+	return ans1;
 }
